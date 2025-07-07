@@ -20,7 +20,7 @@ export function PatientNav() {
     { title: "Dashboard", href: "/dashboard/patient", icon: Home },
     { title: "Solicitud Cita", href: "/dashboard/patient/solicitudes", icon: FilePlus },
     { title: "Citas Programadas", href: "/dashboard/patient/appointments", icon: CalendarCheck },
-    { title: "Historial Clínico", href: "/dashboard/patient/historial", icon: FileText },
+    { title: "Historial Clínico", href: "/dashboard/patient/notas", icon: FileText },
   ];
 
   return (

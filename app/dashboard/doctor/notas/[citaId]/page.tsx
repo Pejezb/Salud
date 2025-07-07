@@ -37,7 +37,6 @@ export default function NotaDetailPage() {
     <div className="p-4 max-w-3xl mx-auto">
       <NotaDetail
         nota={nota}
-        onEdit={() => router.push(`/dashboard/doctor/notas/${id}/new`)}
         onDelete={async () => {
           await deleteNota();
           router.push("/dashboard/doctor/notas");
