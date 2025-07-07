@@ -2,6 +2,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
+import { logNotificacion } from "@/lib/auditoria"; // ← importamos el helper
 
 interface JWTPayload {
   userId: number;
@@ -76,6 +77,8 @@ export async function DELETE(
       paciente: {
         select: {
           usuarioId: true,
+          nombres: true,
+          apellidos: true,
         },
       },
     },
@@ -95,6 +98,17 @@ export async function DELETE(
     );
   }
 
+  // Borrado de la solicitud
   await prisma.solicitudCita.delete({ where: { id } });
+
+  // Registrar notificación al paciente de que su solicitud fue eliminada
+  await logNotificacion({
+    usuarioId: sol.paciente.usuarioId,
+    accion: "ELIMINAR_SOLICITUD",
+    descripcion: `Tu solicitud ha sido eliminada por ${isDoctor ? "el doctor" : "tú mismo"}`,
+    entidad: "Solicitud",
+    entidadId: id,
+  });
+
   return NextResponse.json({ ok: true });
 }

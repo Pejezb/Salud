@@ -2,6 +2,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
+import { logNotificacion } from "@/lib/auditoria"; // <-- helper de auditoría
 
 interface JWTPayload {
   userId: number;
@@ -107,6 +108,15 @@ export async function POST(req: NextRequest) {
       paciente: { select: { nombres: true, apellidos: true, dni: true } },
       turno:    true,
     },
+  });
+
+  // Registrar notificación para el doctor responsable
+  await logNotificacion({
+    usuarioId: turno.profesionalId!,  // reemplaza según tu esquema
+    accion: "CREAR_SOLICITUD",
+    descripcion: `Nueva solicitud de ${nueva.paciente.nombres} ${nueva.paciente.apellidos}`,
+    entidad: "Solicitud",
+    entidadId: nueva.id,
   });
 
   return NextResponse.json(nueva, { status: 201 });

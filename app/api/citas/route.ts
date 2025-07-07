@@ -2,6 +2,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import jwt from "jsonwebtoken";
+import { logNotificacion } from "@/lib/auditoria"; // ← import del helper
 
 interface JWTPayload {
   userId: number;
@@ -22,9 +23,10 @@ export async function GET(req: NextRequest) {
   }
 
   // Devuelve citas para paciente o doctor
-  const whereClause = payload.tipo === "patient"
-    ? { pacienteId: payload.userId }
-    : { turno: { profesionalId: payload.userId } };
+  const whereClause =
+    payload.tipo === "patient"
+      ? { pacienteId: payload.userId }
+      : { turno: { profesionalId: payload.userId } };
 
   const citas = await prisma.cita.findMany({
     where: whereClause,
@@ -90,7 +92,10 @@ export async function POST(req: NextRequest) {
     where: { usuarioId: pacienteId },
   });
   if (!paciente) {
-    return NextResponse.json({ message: "Paciente no encontrado" }, { status: 404 });
+    return NextResponse.json(
+      { message: "Paciente no encontrado" },
+      { status: 404 }
+    );
   }
 
   // Crear cita
@@ -121,6 +126,17 @@ export async function POST(req: NextRequest) {
   await prisma.turno.update({
     where: { id: turnoId },
     data: { estado: "OCUPADO" },
+  });
+
+  // Registrar notificación al paciente
+  await logNotificacion({
+    usuarioId: pacienteId,
+    accion: "PROGRAMAR_CITA",
+    descripcion: `Tu cita ha sido programada para ${new Date(
+      cita.turno.fecha
+    ).toLocaleString()}`,
+    entidad: "Cita",
+    entidadId: cita.id,
   });
 
   return NextResponse.json(cita, { status: 201 });

@@ -1,9 +1,8 @@
-// components/patient-header.tsx
 "use client";
 
 import Link from "next/link";
-import { Bell, LogOut, User as UserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { LogOut, User as UserIcon } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -13,6 +12,7 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 import useAuth from "@/hooks/useAuth";
+import NotificationDropdown from "@/components/notifications/NotificationDropdown";
 
 export function PatientHeader() {
   const { user, logout } = useAuth();
@@ -27,11 +27,7 @@ export function PatientHeader() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5 text-gray-600" />
-            <span className="sr-only">Notificaciones</span>
-          </Button>
-
+          <NotificationDropdown />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">
@@ -49,14 +45,12 @@ export function PatientHeader() {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/patient/profile" className="flex items-center gap-2">
-                  <UserIcon className="h-4 w-4" />
-                  Perfil
+                  <UserIcon className="h-4 w-4" /> Perfil
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onSelect={logout} className="flex items-center gap-2 text-red-600">
-                <LogOut className="h-4 w-4" />
-                Cerrar sesión
+                <LogOut className="h-4 w-4" /> Cerrar sesión
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -65,4 +59,3 @@ export function PatientHeader() {
     </header>
   );
 }
-
