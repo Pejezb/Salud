@@ -53,22 +53,6 @@ export default function NotasFilters({ onChange }: NotasFiltersProps) {
         className="flex-1"
       />
 
-      {/* Selector de fecha con Calendar dentro de un Popover */}
-      <Popover>
-        <PopoverTrigger asChild>
-          <Button variant="outline" className="w-40">
-            {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Filtrar por fecha"}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-auto p-2">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-          />
-        </PopoverContent>
-      </Popover>
-
       {/* Dropdown de tipo de registro */}
       <Select value={tipoRegistro} onValueChange={(v) => setTipoRegistro(v as any)}>
         <SelectTrigger className="w-48">

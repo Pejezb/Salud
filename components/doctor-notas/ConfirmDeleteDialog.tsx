@@ -1,5 +1,7 @@
 // components/doctor-notas/ConfirmDeleteDialog.tsx
-import React from "react";
+'use client';
+
+import React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -8,26 +10,19 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export interface ConfirmDeleteDialogProps {
-  /** Function to call when the user confirms deletion */
+  /** Llamado cuando el usuario confirma la eliminación */
   onConfirm: () => void;
-  /** Optional function to call when the dialog closes without deleting */
+  /** Opcional: llamado cuando el usuario cancela la eliminación */
   onCancel?: () => void;
-  /** Element that triggers the dialog (e.g., a delete button) */
+  /** Elemento que dispara la apertura del diálogo */
   trigger: React.ReactNode;
 }
 
-/**
- * Modal de confirmación para eliminar una nota clínica.
- * Uso:
- * <ConfirmDeleteDialog
- *   trigger={<Button variant="destructive">Eliminar Nota</Button>}
- *   onConfirm={handleDelete}
- * />
- */
 export default function ConfirmDeleteDialog({
   onConfirm,
   onCancel,
@@ -35,27 +30,27 @@ export default function ConfirmDeleteDialog({
 }: ConfirmDeleteDialogProps) {
   return (
     <Dialog>
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogTrigger asChild>
+        {trigger}
+      </DialogTrigger>
       <DialogContent className="max-w-sm">
         <DialogHeader>
           <DialogTitle>Confirmar eliminación</DialogTitle>
           <DialogDescription>
-            ¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción
-            no se puede deshacer.
+            ¿Estás seguro de que deseas eliminar esta nota clínica? Esta acción no se puede deshacer.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="secondary" onClick={onCancel}>
-            Cancelar
-          </Button>
-          <Button
-            variant="destructive"
-            onClick={() => {
-              onConfirm();
-            }}
-          >
-            Eliminar
-          </Button>
+          <DialogClose asChild>
+            <Button variant="secondary" onClick={onCancel}>
+              Cancelar
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button variant="destructive" onClick={onConfirm}>
+              Eliminar
+            </Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>

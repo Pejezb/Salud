@@ -49,20 +49,11 @@ export function DoctorHeader() {
                     <p className="text-xs leading-none text-muted-foreground">Neuropsicólogo</p>
                   </div>
                 </DropdownMenuLabel>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Perfil</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Configuración</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <Link href="/login" className="flex items-center">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Cerrar sesión</span>
-                </DropdownMenuItem>
+                </Link>                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </nav>

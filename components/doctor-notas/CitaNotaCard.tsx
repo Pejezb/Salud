@@ -40,7 +40,7 @@ export default function CitaNotaCard({ cita, nota, onGenerate, onEdit }: Props) 
             onClick={() => onGenerate(cita.id)}
             className="mt-2"
           >
-            Generar Nota
+            Administrar Nota
           </Button>
         ) : (
           <div className="flex items-center justify-between">
