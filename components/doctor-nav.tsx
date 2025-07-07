@@ -33,8 +33,8 @@ export function DoctorNav() {
       icon: Calendar,
     },
     {
-      title: "Foros",
-      href: "/dashboard/doctor/foro",
+      title: "Historias Clinicas",
+      href: "/dashboard/doctor/notas",
       icon: MessageCircle,
     },
     {
